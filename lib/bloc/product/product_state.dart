@@ -11,6 +11,7 @@ class ProductLoadingState extends ProductState {}
 class ProductResponseState extends ProductState {
   Either<String, List<ProductImage>> productresponsImage;
   Either<String, List<ProductVariant>> productresponsVariant;
+
   ProductResponseState(
     this.productresponsImage,
     this.productresponsVariant,

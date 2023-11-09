@@ -58,17 +58,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Center(child: CircularProgressIndicator())),
                 ],
                 if (state is ProductResponseState) ...[
+                  state.productresponsImage.fold((exeption) {
+                    return SliverToBoxAdapter(
+                      child: Center(
+                        child: Text(exeption),
+                      ),
+                    );
+                  }, (productImageList) {
+                    return SliverToBoxAdapter(
+                      child: GalleryWidget(
+                          widget.product.thumbnail, productImageList),
+                    );
+                  })
+                ],
+                if (state is ProductResponseState) ...[
                   state.productresponsVariant.fold((exeption) {
                     return SliverToBoxAdapter(
                       child: Center(
                         child: Text(exeption),
                       ),
                     );
-                  }, (ProductVariantList) {
+                  }, (productVariantList) {
                     return productsDetailWidget(
-                        productVariantList: ProductVariantList);
+                      productVariantList: productVariantList,
+                    );
                   })
                 ],
+
                 // if (state is HomeResponseState) ...[
                 //   state.productresponsImage.fold((exeption) {
                 //     return SliverToBoxAdapter(

@@ -9,8 +9,12 @@ import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 
 class productsDetailWidget extends StatefulWidget {
-  productsDetailWidget({super.key, required this.productVariantList});
+  productsDetailWidget({
+    super.key,
+    required this.productVariantList,
+  });
   List<ProductVariant> productVariantList;
+
   @override
   State<productsDetailWidget> createState() => _productsDetailWidgetState();
 }
@@ -35,46 +39,6 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
                   fontSize: 16,
                   color: colors.black,
                 ),
-              ),
-            ),
-            Container(
-              // margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
-              // width: 340,
-              height: 280,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: colors.white,
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.asset('images/icon_star.png'),
-                        const Text(
-                          '4.6',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontFamily: 'SB',
-                            fontSize: 14,
-                            height: 1.7,
-                          ),
-                        ),
-                        const Spacer(),
-                        SizedBox(
-                            height: 150,
-                            child: Image.asset('images/iphone.png')),
-                        const Spacer(),
-                        // CachedNetworkImage(
-                        //     imageUrl: widget.pImages[selectedImage].image!),
-                        Image.asset('images/icon_favorite_deactive.png'),
-                      ],
-                    ),
-                  ),
-                ],
               ),
             ),
             const SizedBox(
@@ -318,6 +282,119 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class GalleryWidget extends StatefulWidget {
+  List<ProductImage> productImageList;
+  String? defaultProductThumbnail;
+
+  int selectedItem = 0;
+  GalleryWidget(
+    this.defaultProductThumbnail,
+    this.productImageList, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<GalleryWidget> createState() => _GalleryWidgetState();
+}
+
+class _GalleryWidgetState extends State<GalleryWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 44),
+        child: Container(
+          height: 284,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 14, right: 14, top: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/icon_star.png',
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          const Text(
+                            '۴.۶',
+                            style: TextStyle(fontFamily: 'sm', fontSize: 12),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        height: 200,
+                        width: 200,
+                        child: CachedImage(
+                            imageUrl: (widget.productImageList.isEmpty)
+                                ? widget.defaultProductThumbnail
+                                : widget.productImageList[widget.selectedItem]
+                                    .imageUrl),
+                      ),
+                      const Spacer(),
+                      Image.asset('assets/images/icon_favorite_deactive.png')
+                    ],
+                  ),
+                ),
+              ),
+              if (widget.productImageList.isNotEmpty) ...{
+                SizedBox(
+                  height: 70,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 44, right: 44, top: 4),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.productImageList.length,
+                      itemBuilder: ((context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              widget.selectedItem = index;
+                            });
+                          },
+                          child: Container(
+                            height: 70,
+                            width: 70,
+                            margin: const EdgeInsets.only(left: 20),
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(width: 1, color: colors.grey),
+                            ),
+                            child: CachedImage(
+                              imageUrl: widget.productImageList[index].imageUrl,
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                )
+              }
+            ],
+          ),
         ),
       ),
     );
