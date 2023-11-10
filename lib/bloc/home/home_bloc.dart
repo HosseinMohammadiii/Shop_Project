@@ -1,6 +1,5 @@
 import 'package:apple_shop/Data/repository/banner_repository.dart';
 import 'package:apple_shop/Data/repository/category_repository.dart';
-import 'package:apple_shop/Data/repository/product_detail.dart';
 import 'package:apple_shop/Data/repository/product_repository.dart';
 import 'package:apple_shop/bloc/home/home_event.dart';
 import 'package:apple_shop/bloc/home/home_state.dart';

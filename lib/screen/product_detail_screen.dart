@@ -22,7 +22,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     BlocProvider.of<ProductBloc>(context)
-        .add(ProductRequest(widget.product.id));
+        .add(ProductRequest(widget.product.id, widget.product.categoryId));
     super.initState();
   }
 
@@ -58,6 +58,62 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       child: Center(child: CircularProgressIndicator())),
                 ],
                 if (state is ProductResponseState) ...[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 20),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Image.asset(
+                                'images/icon_apple_blue.png',
+                              ),
+                            ),
+                            state.productresponsecategory.fold((exeption) {
+                              return const Center(
+                                child: Text(
+                                  'اطلاعات محصول',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'SB',
+                                    fontSize: 16,
+                                    color: colors.blue,
+                                  ),
+                                ),
+                              );
+                            }, (categoryTitle) {
+                              return Text(
+                                categoryTitle.title ?? 'دسته بندی',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontFamily: 'SB',
+                                  fontSize: 16,
+                                  color: colors.blue,
+                                ),
+                              );
+                            }),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: Image.asset('images/icon_back.png'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                if (state is ProductResponseState) ...[
                   state.productresponsImage.fold((exeption) {
                     return SliverToBoxAdapter(
                       child: Center(
@@ -65,10 +121,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     );
                   }, (productImageList) {
-                    return SliverToBoxAdapter(
-                      child: GalleryWidget(
-                          widget.product.thumbnail, productImageList),
-                    );
+                    return GalleryWidget(
+                        widget.product.thumbnail, productImageList);
                   })
                 ],
                 if (state is ProductResponseState) ...[
@@ -102,51 +156,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ],
             );
           },
-        ),
-      ),
-    );
-  }
-
-  SliverToBoxAdapter nameCategoryProduct() {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-        child: Container(
-          alignment: Alignment.center,
-          height: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: colors.white,
-          ),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Image.asset(
-                  'images/icon_apple_blue.png',
-                ),
-              ),
-              const Expanded(
-                flex: 32,
-                child: Text(
-                  'آیفون',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'SB',
-                    fontSize: 16,
-                    color: colors.blue,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Image.asset('images/icon_back.png'),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

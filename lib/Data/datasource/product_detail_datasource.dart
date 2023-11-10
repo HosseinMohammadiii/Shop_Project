@@ -1,3 +1,4 @@
+import 'package:apple_shop/Data/model/category.dart';
 import 'package:apple_shop/Data/model/gellery.dart';
 import 'package:apple_shop/Data/model/product_variant.dart';
 import 'package:apple_shop/Data/model/variant.dart';
@@ -10,7 +11,8 @@ abstract class IDetailProductDatasource {
   Future<List<ProductImage>> getGallery(String productId);
   Future<List<VariantType>> getVariantTypes();
   Future<List<Variant>> getVariants();
-  Future<List<ProductVariant>> getProductVariants();
+  Future<List<ProductVariant>> getProductVariants(String productId);
+  Future<Categories> getProductCategory(String categoryId);
 }
 
 class ProductDetailRemoteDatasource extends IDetailProductDatasource {
@@ -70,18 +72,40 @@ class ProductDetailRemoteDatasource extends IDetailProductDatasource {
   }
 
   @override
-  Future<List<ProductVariant>> getProductVariants() async {
-    var variantTypeList = await getVariantTypes();
-    var variantList = await getVariants();
+  Future<List<ProductVariant>> getProductVariants(String productId) async {
+    try {
+      var variantTypeList = await getVariantTypes();
+      var variantList = await getVariants();
 
-    List<ProductVariant> productVariantList = [];
+      List<ProductVariant> productVariantList = [];
 
-    for (var variantType in variantTypeList) {
-      var variant = variantList
-          .where((element) => element.typeId == variantType.id)
-          .toList();
-      productVariantList.add(ProductVariant(variantType, variant));
+      for (var variantType in variantTypeList) {
+        var variant = variantList
+            .where((element) => element.typeId == variantType.id)
+            .toList();
+        productVariantList.add(ProductVariant(variantType, variant));
+      }
+      return productVariantList;
+    } on DioException catch (ex) {
+      throw ApiExeption(ex.response?.statusCode, ex.response?.data['message']);
+    } catch (ex) {
+      throw ApiExeption(0, 'unknow error');
     }
-    return productVariantList;
+  }
+
+  @override
+  Future<Categories> getProductCategory(String categoryId) async {
+    try {
+      Map<String, String> qParams = {'filter': 'id="$categoryId"'};
+      var response = await _dio.get(
+        'collections/category/records',
+        queryParameters: qParams,
+      );
+      return Categories.fromMapJson(response.data['items'][0]);
+    } on DioException catch (ex) {
+      throw ApiExeption(ex.response?.statusCode, ex.response?.data['message']);
+    } catch (ex) {
+      throw ApiExeption(0, 'unknow error');
+    }
   }
 }

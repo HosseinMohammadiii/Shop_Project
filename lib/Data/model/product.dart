@@ -1,5 +1,5 @@
 class Products {
-  String category;
+  String categoryId;
   String collectionId;
   String description;
 
@@ -15,7 +15,7 @@ class Products {
   String thumbnail;
 
   Products(
-    this.category,
+    this.categoryId,
     this.collectionId,
     this.description,
     this.discount_price,

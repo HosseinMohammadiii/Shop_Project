@@ -30,17 +30,17 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Center(
-              child: Text(
-                widget.productVariantList[0].variantType.title!,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: 'SB',
-                  fontSize: 16,
-                  color: colors.black,
-                ),
-              ),
-            ),
+            // Center(
+            //   child: Text(
+            //     widget.productVariantList[0].variantType.title!,
+            //     textAlign: TextAlign.center,
+            //     style: const TextStyle(
+            //       fontFamily: 'SB',
+            //       fontSize: 16,
+            //       color: colors.black,
+            //     ),
+            //   ),
+            // ),
             const SizedBox(
               height: 10,
             ),
@@ -76,8 +76,8 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
             const SizedBox(
               height: 20,
             ),
-            boxCategoryInfoProduct(': مشخصات فتی'),
-            boxCategoryInfoProduct(': توضیحات محصول'),
+            ProductDescription(),
+            ProductDescription(),
             Container(
               height: 46,
               margin: const EdgeInsets.symmetric(vertical: 10),
@@ -250,40 +250,56 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
       ),
     );
   }
+}
 
-  Widget boxCategoryInfoProduct(String txt) {
-    return Container(
-      height: 46,
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        color: colors.white,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: colors.grey),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: [
-            Image.asset('images/icon_left_categroy.png'),
-            const SizedBox(
-              width: 10,
+class ProductDescription extends StatelessWidget {
+  const ProductDescription({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          height: 46,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: colors.white,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: colors.grey),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              children: [
+                Image.asset('images/icon_left_categroy.png'),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text(
+                  'مشاهده',
+                  style: TextStyle(
+                      fontFamily: 'SB', fontSize: 12, color: colors.blue),
+                ),
+                const Spacer(),
+                Text(
+                  'txt',
+                  style: const TextStyle(
+                    fontFamily: 'SM',
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
-            const Text(
-              'مشاهده',
-              style:
-                  TextStyle(fontFamily: 'SB', fontSize: 12, color: colors.blue),
-            ),
-            const Spacer(),
-            Text(
-              txt,
-              style: const TextStyle(
-                fontFamily: 'SM',
-                fontSize: 12,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        Container(
+          height: 300,
+          width: 100,
+          color: colors.red,
+        ),
+      ],
     );
   }
 }
