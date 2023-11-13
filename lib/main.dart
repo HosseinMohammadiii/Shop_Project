@@ -2,6 +2,7 @@ import 'package:apple_shop/bloc/authentication/auth_bloc.dart';
 import 'package:apple_shop/bloc/home/home_bloc.dart';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/di/di.dart';
+import 'package:apple_shop/screen/login_screen.dart';
 import 'package:apple_shop/widgets/bottomnavigationbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,8 +29,7 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => HomeBloc(),
             ),
-            
-          ], child: const BottomNavigationScreen()),
+          ], child: const LoginScreen()),
         ),
       ),
     );

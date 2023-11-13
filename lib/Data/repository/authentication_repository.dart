@@ -18,8 +18,8 @@ class AuthenticationRepository implements IAuthRepository {
   Future<Either<String, String>> register(
       String username, String password, String passwordConfirm) async {
     try {
-      await _datasource.register('hossein5555', '123456789', '123456789');
-      return right('ثبت نام انجام شد');
+      await _datasource.register(username, password, passwordConfirm);
+      return right('ثبت نام انجام شد!');
     } on ApiExeption catch (ex) {
       return left(ex.message ?? 'خطا محتوای متنی ندارد');
     }
@@ -28,12 +28,11 @@ class AuthenticationRepository implements IAuthRepository {
   @override
   Future<Either<String, String>> login(String username, String password) async {
     try {
-      String token = _datasource.login(username, password).toString();
+      String token = await _datasource.login(username, password);
       if (token.isNotEmpty) {
-        AuthManager.saveToken(token);
-        return right('شما وارد شدید');
+        return right('شما وارد شده اید');
       } else {
-        return left('خطایی در ورود پیش آمده');
+        return left('خطایی در ورود پیش آمده! ');
       }
     } on ApiExeption catch (ex) {
       return left('${ex.message}');

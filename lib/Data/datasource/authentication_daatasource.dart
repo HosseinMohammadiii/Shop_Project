@@ -6,7 +6,7 @@ abstract class IAuthenticationDataSource {
   Future<void> register(
       String username, String password, String passwordConfirm);
 
-  Future<void> login(String username, String password);
+  Future<String> login(String username, String password);
 }
 
 class AuthenticationRemot implements IAuthenticationDataSource {
@@ -18,18 +18,22 @@ class AuthenticationRemot implements IAuthenticationDataSource {
     try {
       final response = await _dio.post('collections/users/records', data: {
         'username': username,
+        'name': username,
         'password': password,
-        'passwordConfirm': passwordConfirm,
+        'passwordConfirm': passwordConfirm
       });
+      if (response.statusCode == 200) {
+        login(username, password);
+      }
     } on DioException catch (ex) {
       throw ApiExeption(ex.response?.statusCode, ex.response?.data['message']);
     } catch (ex) {
-      throw ApiExeption(0, 'unknown error');
+      throw ApiExeption(0, 'unknown erorr');
     }
   }
 
   @override
-  Future<void> login(String username, String password) async {
+  Future<String> login(String username, String password) async {
     try {
       var response =
           await _dio.post('collections/users/auth-with-password', data: {
@@ -44,5 +48,6 @@ class AuthenticationRemot implements IAuthenticationDataSource {
     } catch (ex) {
       throw ApiExeption(0, 'unknown error');
     }
+    return '';
   }
 }
