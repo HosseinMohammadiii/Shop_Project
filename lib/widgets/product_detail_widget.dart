@@ -76,8 +76,8 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
             const SizedBox(
               height: 20,
             ),
-            ProductDescription(),
-            ProductDescription(),
+            // ProductDescription(),
+
             Container(
               height: 46,
               margin: const EdgeInsets.symmetric(vertical: 10),
@@ -252,54 +252,85 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
   }
 }
 
-class ProductDescription extends StatelessWidget {
-  const ProductDescription({
+class ProductDescription extends StatefulWidget {
+  String productDescription;
+  ProductDescription(
+    this.productDescription, {
     super.key,
   });
 
   @override
+  State<ProductDescription> createState() => _ProductDescriptionState();
+}
+
+class _ProductDescriptionState extends State<ProductDescription> {
+  bool _isVisible = false;
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 46,
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: colors.white,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: colors.grey),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: [
-                Image.asset('images/icon_left_categroy.png'),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  'مشاهده',
-                  style: TextStyle(
-                      fontFamily: 'SB', fontSize: 12, color: colors.blue),
-                ),
-                const Spacer(),
-                Text(
-                  'txt',
-                  style: const TextStyle(
-                    fontFamily: 'SM',
-                    fontSize: 12,
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _isVisible = !_isVisible;
+              });
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              height: 46,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(width: 1, color: colors.grey),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 10,
                   ),
-                ),
-              ],
+                  Image.asset('images/icon_left_categroy.png'),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text(
+                    'مشاهده',
+                    style: TextStyle(
+                        fontFamily: 'sb', fontSize: 12, color: colors.blue),
+                  ),
+                  const Spacer(),
+                  const Text(
+                    ': توضییحات محصول',
+                    style: TextStyle(fontFamily: 'sm'),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        Container(
-          height: 300,
-          width: 100,
-          color: colors.red,
-        ),
-      ],
+          Visibility(
+            visible: _isVisible,
+            child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(width: 1, color: colors.grey),
+                    borderRadius: const BorderRadius.all(Radius.circular(15))),
+                child: Text(
+                  widget.productDescription,
+                  textAlign: TextAlign.justify,
+                  textDirection: TextDirection.rtl,
+                  style: const TextStyle(
+                    fontFamily: 'sm',
+                    fontSize: 16,
+                    height: 1.8,
+                  ),
+                )),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -344,7 +375,7 @@ class _GalleryWidgetState extends State<GalleryWidget> {
                       Row(
                         children: [
                           Image.asset(
-                            'assets/images/icon_star.png',
+                            'images/icon_star.png',
                           ),
                           const SizedBox(
                             width: 2,
@@ -366,7 +397,7 @@ class _GalleryWidgetState extends State<GalleryWidget> {
                                     .imageUrl),
                       ),
                       const Spacer(),
-                      Image.asset('assets/images/icon_favorite_deactive.png')
+                      Image.asset('images/icon_favorite_deactive.png')
                     ],
                   ),
                 ),

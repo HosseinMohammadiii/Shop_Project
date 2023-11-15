@@ -1,5 +1,6 @@
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/util/api_exeption.dart';
+import 'package:apple_shop/util/dio_provider.dart';
 import 'package:dio/dio.dart';
 
 abstract class IAuthenticationDataSource {
@@ -10,7 +11,7 @@ abstract class IAuthenticationDataSource {
 }
 
 class AuthenticationRemot implements IAuthenticationDataSource {
-  final Dio _dio = locator.get();
+  final Dio _dio = DioProvider.createDioWithoutHeader();
 
   @override
   Future<void> register(

@@ -13,6 +13,7 @@ class Categories {
     this.color,
     this.icon,
   );
+
   factory Categories.fromMapJson(Map<String, dynamic> jsonObject) {
     return Categories(
       jsonObject['collectionId'],

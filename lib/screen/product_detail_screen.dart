@@ -35,24 +35,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           builder: (context, state) {
             return CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        IProductDetailRepository product = locator.get();
-                        var response =
-                            await product.getGallery(widget.product.id);
-                        response.fold((l) {
-                          print(l);
-                        }, (r) {
-                          r.forEach((element) {
-                            print(element.imageUrl);
-                          });
-                        });
-                      },
-                      child: Text('click')),
-                ),
-                ProductDetailWidget(),
-                getDetaliproduct(),
                 if (state is ProductLoadingState) ...[
                   const SliverFillRemaining(
                       child: Center(child: CircularProgressIndicator())),
@@ -70,6 +52,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           color: colors.white,
                         ),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 16),
@@ -77,7 +60,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 'images/icon_apple_blue.png',
                               ),
                             ),
-                            state.productresponsecategory.fold((exeption) {
+                            state.productCategory.fold((exeption) {
                               return const Center(
                                 child: Text(
                                   'اطلاعات محصول',
@@ -91,7 +74,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               );
                             }, (categoryTitle) {
                               return Text(
-                                categoryTitle.title ?? 'دسته بندی',
+                                categoryTitle.title!,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontFamily: 'SB',
@@ -113,8 +96,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                 ],
+                if (state is ProductResponseState) ...{
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Text(
+                        widget.product.name,
+                        textDirection: TextDirection.rtl,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontFamily: 'sb',
+                            fontSize: 16,
+                            color: Colors.black),
+                      ),
+                    ),
+                  )
+                },
                 if (state is ProductResponseState) ...[
-                  state.productresponsImage.fold((exeption) {
+                  state.productImages.fold((exeption) {
                     return SliverToBoxAdapter(
                       child: Center(
                         child: Text(exeption),
@@ -126,7 +125,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   })
                 ],
                 if (state is ProductResponseState) ...[
-                  state.productresponsVariant.fold((exeption) {
+                  state.productVariant.fold((exeption) {
                     return SliverToBoxAdapter(
                       child: Center(
                         child: Text(exeption),
@@ -138,21 +137,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     );
                   })
                 ],
-
-                // if (state is HomeResponseState) ...[
-                //   state.productresponsImage.fold((exeption) {
-                //     return SliverToBoxAdapter(
-                //       child: Center(
-                //         child: Text(exeption),
-                //       ),
-                //     );
-                //   }, (gallery) {
-                //     return SliverToBoxAdapter(child: ProductDetailWidget());
-                //   }),
-                // ],
-                // SliverToBoxAdapter(
-                //   child: ProductDetailWidget(),
-                // ),
+                if (state is ProductResponseState) ...[
+                  ProductDescription(widget.product.description),
+                ],
               ],
             );
           },
