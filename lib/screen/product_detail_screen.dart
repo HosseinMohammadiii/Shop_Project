@@ -35,6 +35,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           builder: (context, state) {
             return CustomScrollView(
               slivers: [
+                SliverToBoxAdapter(
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        IProductDetailRepository product = locator.get();
+                        var response = await product
+                            .getProductCategory(widget.product.categoryId);
+                        response.fold((l) {
+                          print(l);
+                        }, (r) {
+                          print(r.title);
+                        });
+                      },
+                      child: Text('click')),
+                ),
                 if (state is ProductLoadingState) ...[
                   const SliverFillRemaining(
                       child: Center(child: CircularProgressIndicator())),
@@ -139,6 +153,136 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ],
                 if (state is ProductResponseState) ...[
                   ProductDescription(widget.product.description),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
+                    sliver: SliverToBoxAdapter(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 160,
+                            decoration: BoxDecoration(
+                              color: colors.green,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: const [
+                                BoxShadow(
+                                  blurRadius: 0.3,
+                                  spreadRadius: -6,
+                                  color: colors.green,
+                                  offset: Offset(0, -11),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 20, sigmaY: 60),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const Text(
+                                        'تومان',
+                                        style: TextStyle(
+                                          fontFamily: 'SM',
+                                          color: colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      const Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '49,800,000',
+                                            style: TextStyle(
+                                              color: colors.white,
+                                              fontFamily: 'SM',
+                                              fontSize: 12,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                            ),
+                                          ),
+                                          Text(
+                                            '48,800,000',
+                                            style: TextStyle(
+                                              fontFamily: 'SM',
+                                              fontSize: 16,
+                                              color: colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        height: 20,
+                                        width: 30,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: colors.red,
+                                        ),
+                                        child: const Text(
+                                          '%5',
+                                          style: TextStyle(
+                                            fontFamily: 'SB',
+                                            fontSize: 12,
+                                            color: colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            width: 160,
+                            decoration: BoxDecoration(
+                              color: colors.blue,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: const [
+                                BoxShadow(
+                                  blurRadius: 0.3,
+                                  spreadRadius: -6,
+                                  color: colors.blue,
+                                  offset: Offset(0, -11),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 20, sigmaY: 60),
+                                child: const Center(
+                                  child: Text(
+                                    'افزودن سبد خرید',
+                                    style: TextStyle(
+                                      fontFamily: 'SB',
+                                      color: colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ],
             );

@@ -30,17 +30,6 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // Center(
-            //   child: Text(
-            //     widget.productVariantList[0].variantType.title!,
-            //     textAlign: TextAlign.center,
-            //     style: const TextStyle(
-            //       fontFamily: 'SB',
-            //       fontSize: 16,
-            //       color: colors.black,
-            //     ),
-            //   ),
-            // ),
             const SizedBox(
               height: 10,
             ),
@@ -76,8 +65,6 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
             const SizedBox(
               height: 20,
             ),
-            // ProductDescription(),
-
             Container(
               height: 46,
               margin: const EdgeInsets.symmetric(vertical: 10),
@@ -124,126 +111,6 @@ class _productsDetailWidgetState extends State<productsDetailWidget> {
                   ],
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 50,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    color: colors.green,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: const [
-                      BoxShadow(
-                        blurRadius: 0.3,
-                        spreadRadius: -6,
-                        color: colors.green,
-                        offset: Offset(0, -11),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 60),
-                      child: Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text(
-                              'تومان',
-                              style: TextStyle(
-                                fontFamily: 'SM',
-                                color: colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '49,800,000',
-                                  style: TextStyle(
-                                    color: colors.white,
-                                    fontFamily: 'SM',
-                                    fontSize: 12,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                                ),
-                                Text(
-                                  '48,800,000',
-                                  style: TextStyle(
-                                    fontFamily: 'SM',
-                                    fontSize: 16,
-                                    color: colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 2),
-                              height: 20,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: colors.red,
-                              ),
-                              child: const Text(
-                                '%5',
-                                style: TextStyle(
-                                  fontFamily: 'SB',
-                                  fontSize: 12,
-                                  color: colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    color: colors.blue,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: const [
-                      BoxShadow(
-                        blurRadius: 0.3,
-                        spreadRadius: -6,
-                        color: colors.blue,
-                        offset: Offset(0, -11),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 60),
-                      child: const Center(
-                        child: Text(
-                          'افزودن سبد خرید',
-                          style: TextStyle(
-                            fontFamily: 'SB',
-                            color: colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
@@ -312,22 +179,23 @@ class _ProductDescriptionState extends State<ProductDescription> {
           Visibility(
             visible: _isVisible,
             child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 1, color: colors.grey),
-                    borderRadius: const BorderRadius.all(Radius.circular(15))),
-                child: Text(
-                  widget.productDescription,
-                  textAlign: TextAlign.justify,
-                  textDirection: TextDirection.rtl,
-                  style: const TextStyle(
-                    fontFamily: 'sm',
-                    fontSize: 16,
-                    height: 1.8,
-                  ),
-                )),
+              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(width: 1, color: colors.grey),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
+              child: Text(
+                widget.productDescription,
+                textAlign: TextAlign.justify,
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(
+                  fontFamily: 'sm',
+                  fontSize: 16,
+                  height: 1.8,
+                ),
+              ),
+            ),
           ),
         ],
       ),

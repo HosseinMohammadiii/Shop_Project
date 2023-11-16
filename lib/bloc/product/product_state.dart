@@ -11,11 +11,11 @@ class InitionProductState extends ProductState {}
 class ProductLoadingState extends ProductState {}
 
 class ProductResponseState extends ProductState {
+  Either<String, Categories> productCategory;
   Either<String, List<ProductImage>> productImages;
   Either<String, List<ProductVariant>> productVariant;
   Either<String, Products> products;
-  Either<String, Categories> productCategory;
 
-  ProductResponseState(this.productImages, this.productVariant,
-      this.productCategory, this.products);
+  ProductResponseState(this.productCategory, this.productImages,
+      this.productVariant, this.products);
 }

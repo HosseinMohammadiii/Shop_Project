@@ -13,7 +13,7 @@ abstract class IProductDetailRepository {
   Future<Either<String, List<VariantType>>> getVariantTypes();
   Future<Either<String, List<ProductVariant>>> getProductVariants(
       String productId);
-  Future<Either<String, Categories>> getProductCategory(String categoryId);
+  Future<Either<String, Categories>> getProductCategory(String categoriesId);
   Future<Either<String, Products>> getProducts(String productsId);
 }
 
@@ -54,9 +54,9 @@ class ProductDetailRepository extends IProductDetailRepository {
 
   @override
   Future<Either<String, Categories>> getProductCategory(
-      String categoryId) async {
+      String categoriesId) async {
     try {
-      var respose = await _datasource.getProductCategory(categoryId);
+      var respose = await _datasource.getProductCategory(categoriesId);
       return right(respose);
     } on ApiExeption catch (ex) {
       return left(ex.message ?? 'خطا محتوای متنی ندارد');
