@@ -1,6 +1,4 @@
 import 'package:apple_shop/Class/colors.dart';
-import 'package:apple_shop/Data/repository/authentication_repository.dart';
-import 'package:apple_shop/util/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_line/dotted_line.dart';
 
@@ -83,45 +81,10 @@ class _BasketShopScreenState extends State<BasketShopScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       )),
-                  onPressed: () async {
-                    await AuthenticationRepository()
-                        .login('username', 'password');
-                  },
+                  onPressed: () async {},
                   child: const Text('ادامه فرایند خرید'),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 80),
-              child: SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                height: 53,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(
-                        fontFamily: 'SM',
-                        fontSize: 17,
-                      ),
-                      backgroundColor: colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      )),
-                  onPressed: () async {
-                    AuthManager.logout();
-                  },
-                  child: const Text('logout'),
-                ),
-              ),
-            ),
-            ValueListenableBuilder(
-              valueListenable: AuthManager.authChangeNotifier,
-              builder: (context, value, child) {
-                if (value == null || value.isEmpty) {
-                  return Text('شما وارد نشده اید');
-                } else {
-                  return Text('شما وارد شده اید');
-                }
-              },
             ),
           ],
         ),
@@ -153,20 +116,22 @@ class _BasketShopScreenState extends State<BasketShopScreen> {
                     const Text(
                       'آیفون 13 پرومکس دوسیم',
                       overflow: TextOverflow.ellipsis,
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.start,
                       style: TextStyle(
                         fontFamily: 'SB',
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
                     const Text(
-                      'گارانتی 18 ماه مدیا پردازش',
+                      'گارانتی 18 ماهه مدیا پردازش',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: 'SM',
-                        fontSize: 12,
+                        fontSize: 10,
                         color: colors.grey,
                       ),
                     ),
@@ -210,7 +175,7 @@ class _BasketShopScreenState extends State<BasketShopScreen> {
                           '46,000,000',
                           style: TextStyle(
                             fontFamily: 'SM',
-                            fontSize: 14,
+                            fontSize: 12,
                             color: colors.grey,
                           ),
                         ),
@@ -224,11 +189,11 @@ class _BasketShopScreenState extends State<BasketShopScreen> {
                       alignment: WrapAlignment.end,
                       spacing: 5,
                       children: [
-                        optionProductSelect(),
-                        optionProductSelect(),
-                        optionProductSelect(),
-                        optionProductSelect(),
-                        optionProductSelect(),
+                        optionProductSelect('vcvvc', '4287f5'),
+                        // optionProductSelect(''),
+                        // optionProductSelect(''),
+                        // optionProductSelect(''),
+                        // optionProductSelect(''),
                       ],
                     ),
                   ],
@@ -269,7 +234,7 @@ class _BasketShopScreenState extends State<BasketShopScreen> {
                   '59,000,000',
                   style: TextStyle(
                     fontFamily: 'SB',
-                    fontSize: 12,
+                    fontSize: 16,
                   ),
                 ),
               ],
@@ -280,7 +245,9 @@ class _BasketShopScreenState extends State<BasketShopScreen> {
     );
   }
 
-  Container optionProductSelect() {
+  Container optionProductSelect(String title, String color) {
+    String categoryColor = 'ff$color';
+    int hexColor = int.parse(categoryColor, radix: 16);
     return Container(
       width: 60,
       height: 22,
@@ -291,12 +258,27 @@ class _BasketShopScreenState extends State<BasketShopScreen> {
         border: Border.all(color: colors.grey),
         color: colors.white,
       ),
-      child: const Text(
-        '128',
-        style: TextStyle(
-          fontFamily: 'SB',
-          fontSize: 12,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          if (color.isNotEmpty) ...{
+            Container(
+              width: 12,
+              height: 12,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(hexColor),
+              ),
+            ),
+          },
+          Text(
+            title,
+            style: const TextStyle(
+              fontFamily: 'SM',
+              fontSize: 12,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:apple_shop/Data/datasource/authentication_daatasource.dart';
 import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/util/api_exeption.dart';
-import 'package:apple_shop/util/auth_manager.dart';
 import 'package:dartz/dartz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,6 +1,5 @@
 import 'package:apple_shop/Class/colors.dart';
 import 'package:apple_shop/Data/model/category.dart';
-import 'package:apple_shop/Data/model/product.dart';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';

@@ -2,11 +2,9 @@ import 'dart:ui';
 
 import 'package:apple_shop/Class/colors.dart';
 import 'package:apple_shop/Data/model/product.dart';
-import 'package:apple_shop/Data/repository/product_detail.dart';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
-import 'package:apple_shop/di/di.dart';
 import 'package:apple_shop/widgets/product_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +33,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           builder: (context, state) {
             return CustomScrollView(
               slivers: [
-               
                 if (state is ProductLoadingState) ...[
                   const SliverFillRemaining(
                       child: Center(child: CircularProgressIndicator())),
