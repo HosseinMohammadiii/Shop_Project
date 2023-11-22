@@ -15,6 +15,8 @@ abstract class IProductDetailRepository {
       String productId);
   Future<Either<String, Categories>> getProductCategory(String categoriesId);
   Future<Either<String, Products>> getProducts(String productsId);
+  Future<Either<String, List<Products>>> getCategoryProducts(
+      String categoriesId);
 }
 
 class ProductDetailRepository extends IProductDetailRepository {
@@ -68,6 +70,17 @@ class ProductDetailRepository extends IProductDetailRepository {
     try {
       var respose = await _datasource.getProducts(productsId);
       return right(respose);
+    } on ApiExeption catch (ex) {
+      return left(ex.message ?? 'خطا محتوای متنی ندارد');
+    }
+  }
+
+  @override
+  Future<Either<String, List<Products>>> getCategoryProducts(
+      String categoriesId) async {
+    try {
+      var response = await _datasource.getCategoryProducts(categoriesId);
+      return right(response);
     } on ApiExeption catch (ex) {
       return left(ex.message ?? 'خطا محتوای متنی ندارد');
     }

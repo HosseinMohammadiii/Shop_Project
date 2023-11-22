@@ -35,20 +35,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           builder: (context, state) {
             return CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(
-                  child: ElevatedButton(
-                      onPressed: () async {
-                        IProductDetailRepository product = locator.get();
-                        var response = await product
-                            .getProductCategory(widget.product.categoryId);
-                        response.fold((l) {
-                          print(l);
-                        }, (r) {
-                          print(r.title);
-                        });
-                      },
-                      child: Text('click')),
-                ),
+               
                 if (state is ProductLoadingState) ...[
                   const SliverFillRemaining(
                       child: Center(child: CircularProgressIndicator())),

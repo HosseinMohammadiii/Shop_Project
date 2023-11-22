@@ -144,7 +144,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
               });
             },
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               height: 46,
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -166,7 +166,7 @@ class _ProductDescriptionState extends State<ProductDescription> {
                   ),
                   const Spacer(),
                   const Text(
-                    ': توضییحات محصول',
+                    ': توضیحات محصول',
                     style: TextStyle(fontFamily: 'sm'),
                   ),
                   const SizedBox(

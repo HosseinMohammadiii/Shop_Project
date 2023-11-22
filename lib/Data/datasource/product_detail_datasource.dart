@@ -15,6 +15,7 @@ abstract class IDetailProductDatasource {
   Future<List<ProductVariant>> getProductVariants(String productId);
   Future<Categories> getProductCategory(String categoriesId);
   Future<Products> getProducts(String productsId);
+  Future<List<Products>> getCategoryProducts(String categoriesId);
 }
 
 class ProductDetailRemoteDatasource extends IDetailProductDatasource {
@@ -118,6 +119,29 @@ class ProductDetailRemoteDatasource extends IDetailProductDatasource {
         queryParameters: qParams,
       );
       return Products.fromMapJson(response.data['items']);
+    } on DioException catch (ex) {
+      throw ApiExeption(ex.response?.statusCode, ex.response?.data['message']);
+    } catch (ex) {
+      throw ApiExeption(0, 'unknow error');
+    }
+  }
+
+  @override
+  Future<List<Products>> getCategoryProducts(String categoriesId) async {
+    try {
+      Map<String, String> qParams = {'filter': 'category="$categoriesId"'};
+      Response<dynamic> response;
+      if (categoriesId == '78q8w901e6iipuk') {
+        response = await _dio.get('collections/products/records');
+      } else {
+        response = await _dio.get(
+          'collections/products/records',
+          queryParameters: qParams,
+        );
+      }
+      return response.data['items']
+          .map<Products>((jsonObject) => Products.fromMapJson(jsonObject))
+          .toList();
     } on DioException catch (ex) {
       throw ApiExeption(ex.response?.statusCode, ex.response?.data['message']);
     } catch (ex) {

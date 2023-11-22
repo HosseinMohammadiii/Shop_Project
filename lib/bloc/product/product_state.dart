@@ -15,7 +15,13 @@ class ProductResponseState extends ProductState {
   Either<String, List<ProductImage>> productImages;
   Either<String, List<ProductVariant>> productVariant;
   Either<String, Products> products;
+  Either<String, List<Products>> categoryProducts;
 
-  ProductResponseState(this.productCategory, this.productImages,
-      this.productVariant, this.products);
+  ProductResponseState(
+    this.productCategory,
+    this.productImages,
+    this.productVariant,
+    this.products,
+    this.categoryProducts,
+  );
 }
