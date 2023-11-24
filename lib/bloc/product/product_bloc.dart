@@ -1,3 +1,5 @@
+import 'package:apple_shop/Data/model/card_item.dart';
+import 'package:apple_shop/Data/repository/basket_repository.dart';
 import 'package:apple_shop/Data/repository/product_detail.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
 import 'package:apple_shop/bloc/product/product_state.dart';
@@ -6,6 +8,7 @@ import 'package:bloc/bloc.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final IProductDetailRepository _productRepository = locator.get();
+  final IBasketRepository _basketRepository = locator.get();
 
   ProductBloc() : super(InitionProductState()) {
     on<ProductRequest>((event, emit) async {
@@ -28,5 +31,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         categoryProducts,
       ));
     });
+    on<ProductAddToBasket>(((event, emit) async {
+      var basketItem = BasketItem(
+        event.products.categoryId,
+        event.products.collectionId,
+        event.products.discount_price,
+        event.products.id,
+        event.products.name,
+        event.products.price,
+        event.products.thumbnail,
+      );
+
+      _basketRepository.addProductToBasket(basketItem);
+    }));
   }
 }

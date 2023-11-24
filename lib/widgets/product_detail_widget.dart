@@ -5,6 +5,7 @@ import 'package:apple_shop/Data/model/gellery.dart';
 import 'package:apple_shop/Data/model/product_variant.dart';
 import 'package:apple_shop/Data/model/variant.dart';
 import 'package:apple_shop/Data/model/variant_type.dart';
+import 'package:apple_shop/util/extension/color_extension.dart';
 import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 
@@ -380,8 +381,6 @@ class _ColorVariantListState extends State<ColorVariantList> {
         scrollDirection: Axis.horizontal,
         reverse: true,
         itemBuilder: (context, index) {
-          String categoryColor = 'ff${widget.variantList[index].value}';
-          int hexColor = int.parse(categoryColor, radix: 16);
           return GestureDetector(
             onTap: () {
               setState(() {
@@ -405,7 +404,7 @@ class _ColorVariantListState extends State<ColorVariantList> {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(hexColor),
+                  color: widget.variantList[index].value!.parsToColor(),
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),

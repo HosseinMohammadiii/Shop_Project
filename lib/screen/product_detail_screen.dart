@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:apple_shop/Class/colors.dart';
+import 'package:apple_shop/Data/model/card_item.dart';
 import 'package:apple_shop/Data/model/product.dart';
 import 'package:apple_shop/bloc/product/product_bloc.dart';
 import 'package:apple_shop/bloc/product/product_event.dart';
@@ -8,6 +9,7 @@ import 'package:apple_shop/bloc/product/product_state.dart';
 import 'package:apple_shop/widgets/product_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   ProductDetailScreen(this.product, {super.key});
@@ -140,134 +142,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
-                    sliver: SliverToBoxAdapter(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 160,
-                            decoration: BoxDecoration(
-                              color: colors.green,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 0.3,
-                                  spreadRadius: -6,
-                                  color: colors.green,
-                                  offset: Offset(0, -11),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 20, sigmaY: 60),
-                                child: Center(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const Text(
-                                        'تومان',
-                                        style: TextStyle(
-                                          fontFamily: 'SM',
-                                          color: colors.white,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      const Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '49,800,000',
-                                            style: TextStyle(
-                                              color: colors.white,
-                                              fontFamily: 'SM',
-                                              fontSize: 12,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                            ),
-                                          ),
-                                          Text(
-                                            '48,800,000',
-                                            style: TextStyle(
-                                              fontFamily: 'SM',
-                                              fontSize: 16,
-                                              color: colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2),
-                                        height: 20,
-                                        width: 30,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: colors.red,
-                                        ),
-                                        child: const Text(
-                                          '%5',
-                                          style: TextStyle(
-                                            fontFamily: 'SB',
-                                            fontSize: 12,
-                                            color: colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 50,
-                            width: 160,
-                            decoration: BoxDecoration(
-                              color: colors.blue,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 0.3,
-                                  spreadRadius: -6,
-                                  color: colors.blue,
-                                  offset: Offset(0, -11),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 20, sigmaY: 60),
-                                child: const Center(
-                                  child: Text(
-                                    'افزودن سبد خرید',
-                                    style: TextStyle(
-                                      fontFamily: 'SB',
-                                      color: colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    sliver: infoBuyProduct(widget.product),
                   ),
                 ],
+                // if (state is ProductAddToBasketResponseState) ...[
+                //   state.productAddBasket.fold((exeption) {
+                //     return SliverToBoxAdapter(
+                //       child: Center(
+                //         child: Text(exeption),
+                //       ),
+                //     );
+                //   }, (r) {
+                //     return SliverPadding(
+                //       padding: const EdgeInsets.symmetric(
+                //           horizontal: 15, vertical: 15),
+                //       sliver: infoBuyProduct(widget.product),
+                //     );
+                //   })
+                // ],
               ],
             );
           },
@@ -392,123 +284,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 50,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    color: colors.green,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: const [
-                      BoxShadow(
-                        blurRadius: 0.3,
-                        spreadRadius: -6,
-                        color: colors.green,
-                        offset: Offset(0, -11),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 60),
-                      child: Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text(
-                              'تومان',
-                              style: TextStyle(
-                                fontFamily: 'SM',
-                                color: colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                            const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '49,800,000',
-                                  style: TextStyle(
-                                    color: colors.white,
-                                    fontFamily: 'SM',
-                                    fontSize: 12,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                                ),
-                                Text(
-                                  '48,800,000',
-                                  style: TextStyle(
-                                    fontFamily: 'SM',
-                                    fontSize: 16,
-                                    color: colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 2),
-                              height: 20,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: colors.red,
-                              ),
-                              child: const Text(
-                                '%5',
-                                style: TextStyle(
-                                  fontFamily: 'SB',
-                                  fontSize: 12,
-                                  color: colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    color: colors.blue,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: const [
-                      BoxShadow(
-                        blurRadius: 0.3,
-                        spreadRadius: -6,
-                        color: colors.blue,
-                        offset: Offset(0, -11),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 60),
-                      child: const Center(
-                        child: Text(
-                          'افزودن سبد خرید',
-                          style: TextStyle(
-                            fontFamily: 'SB',
-                            color: colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            infoBuyProduct(widget.product),
           ],
         ),
       ),
@@ -547,6 +323,141 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class infoBuyProduct extends StatelessWidget {
+  Products products;
+  infoBuyProduct(
+    this.products, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            height: 50,
+            width: 160,
+            decoration: BoxDecoration(
+              color: colors.green,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 0.3,
+                  spreadRadius: -6,
+                  color: colors.green,
+                  offset: Offset(0, -11),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 60),
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        'تومان',
+                        style: TextStyle(
+                          fontFamily: 'SM',
+                          color: colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '49,800,000',
+                            style: TextStyle(
+                              color: colors.white,
+                              fontFamily: 'SM',
+                              fontSize: 12,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                          Text(
+                            '48,800,000',
+                            style: TextStyle(
+                              fontFamily: 'SM',
+                              fontSize: 16,
+                              color: colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(horizontal: 2),
+                        height: 20,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: colors.red,
+                        ),
+                        child: const Text(
+                          '%5',
+                          style: TextStyle(
+                            fontFamily: 'SB',
+                            fontSize: 12,
+                            color: colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              context.read<ProductBloc>().add(ProductAddToBasket(products));
+            },
+            child: Container(
+              height: 50,
+              width: 160,
+              decoration: BoxDecoration(
+                color: colors.blue,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 0.3,
+                    spreadRadius: -6,
+                    color: colors.blue,
+                    offset: Offset(0, -11),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 60),
+                  child: const Center(
+                    child: Text(
+                      'افزودن سبد خرید',
+                      style: TextStyle(
+                        fontFamily: 'SB',
+                        color: colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

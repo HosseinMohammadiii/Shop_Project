@@ -1,3 +1,4 @@
+import 'package:apple_shop/Data/model/card_item.dart';
 import 'package:apple_shop/Data/model/category.dart';
 import 'package:apple_shop/Data/model/gellery.dart';
 import 'package:apple_shop/Data/model/product.dart';
@@ -23,5 +24,13 @@ class ProductResponseState extends ProductState {
     this.productVariant,
     this.products,
     this.categoryProducts,
+  );
+}
+
+class ProductAddToBasketResponseState extends ProductState {
+  Either<String, BasketItem> productAddBasket;
+
+  ProductAddToBasketResponseState(
+    this.productAddBasket,
   );
 }
